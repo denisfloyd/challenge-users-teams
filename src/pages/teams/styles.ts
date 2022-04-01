@@ -10,8 +10,6 @@ export const Container = styled.main`
   height: 100vh;
   position: relative;
   overflow: overlay;
-
-  button
 `;
 
 export const ListContainer = styled.ul`
@@ -53,8 +51,4 @@ export const UserCard = styled.li<UserCardProps>`
     css`
       color: var(--orange-100);
     `};
-`;
-
-export const LoadingMembersFallback = styled.li`
-  align-self: center;
 `;
