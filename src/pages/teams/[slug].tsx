@@ -64,7 +64,7 @@ export default function TeamMembers({
   }, [resultSearching, memberFromServer]);
 
   function handleClickBack() {
-    router.replace("/teams");
+    router.replace("/");
   }
 
   if (router.isFallback) {
@@ -136,7 +136,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 
   return {
     redirect: {
-      destination: "/teams",
+      destination: "/",
       permanent: false,
     },
   };
