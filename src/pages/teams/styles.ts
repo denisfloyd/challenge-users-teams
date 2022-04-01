@@ -1,8 +1,6 @@
 import styled, { css } from "styled-components";
-import { shade } from "polished";
 
 import { SIZE } from "@/styles/abstracts/_variables";
-import { flexbox } from "@/styles/abstracts/_mixins";
 import { convertPixelToREM } from "@/styles/abstracts/_functions";
 
 export const Container = styled.main`
@@ -20,25 +18,6 @@ export const ListContainer = styled.ul`
   margin-top: ${SIZE._24};
 
   list-style: none;
-`;
-
-export const TeamCard = styled.li`
-  ${flexbox("column", "stretch")};
-  background-color: var(--blue-300);
-  color: var(--white);
-  border-radius: 2px;
-  cursor: pointer;
-  padding: ${SIZE._16};
-  transition: background-color 0.2s ease-in-out;
-
-  &:hover {
-    background-color: ${shade(0.2, "#4286d4")};
-  }
-`;
-
-export const ErrorMessage = styled.h1`
-  color: var(--red-500);
-  text-align: center;
 `;
 
 interface UserCardProps {
