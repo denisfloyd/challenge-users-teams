@@ -27,8 +27,8 @@ export async function getTeam(id: string): Promise<Team | null> {
 }
 
 export function useTeams(dragons?: Team[]) {
-  return useQuery(["dragons"], () => getTeams(), {
-    staleTime: 1000 * 60 * 1, // 1 minutes
+  return useQuery(["teams"], () => getTeams(), {
+    staleTime: 1000 * 60 * 1, // 1 minute
     refetchOnWindowFocus: true,
     initialData: dragons,
   });
