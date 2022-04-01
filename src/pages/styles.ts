@@ -5,12 +5,14 @@ import { SIZE } from "@/styles/abstracts/_variables";
 import { flexbox } from "@/styles/abstracts/_mixins";
 import { convertPixelToREM } from "@/styles/abstracts/_functions";
 
-export const Container = styled.main`
+const Container = styled.main`
   padding: ${SIZE._32};
   height: 100vh;
   position: relative;
   overflow: overlay;
 `;
+
+export default Container;
 
 export const ListContainer = styled.ul`
   display: grid;

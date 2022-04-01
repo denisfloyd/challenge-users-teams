@@ -3,12 +3,14 @@ import styled, { css } from "styled-components";
 import { SIZE } from "@/styles/abstracts/_variables";
 import { convertPixelToREM } from "@/styles/abstracts/_functions";
 
-export const Container = styled.main`
+const Container = styled.main`
   padding: ${SIZE._32};
   height: 100vh;
   position: relative;
   overflow: overlay;
 `;
+
+export default Container;
 
 export const ListContainer = styled.ul`
   display: grid;

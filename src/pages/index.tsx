@@ -10,7 +10,7 @@ import Link from "next/link";
 import { useSearch } from "@/hooks/useSearch";
 import { Input } from "@/components/elements/Input";
 
-import { Container, ErrorMessage, ListContainer, TeamCard } from "./styles";
+import Container, { ErrorMessage, ListContainer, TeamCard } from "./styles";
 
 interface TeamListProps {
   teams: Team[];
@@ -63,12 +63,7 @@ export default function TeamList({ teams: teamsServer }: TeamListProps) {
           <>
             <ListContainer>
               {teams.map((team) => (
-                <Link
-                  key={team.id}
-                  href={`/teams/${team.id}`}
-                  prefetch
-                  passHref
-                >
+                <Link key={team.id} href={`/teams/${team.id}`} passHref>
                   <TeamCard>{team.name}</TeamCard>
                 </Link>
               ))}

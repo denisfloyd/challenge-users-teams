@@ -14,7 +14,7 @@ import { Header } from "@/components/widgets/Header";
 import { Loading } from "@/components/widgets/LoadingState";
 import { Input } from "@/components/elements/Input";
 
-import { Container, ListContainer, UserCard } from "./styles";
+import Container, { ListContainer, UserCard } from "./styles";
 
 interface User {
   id: string;
@@ -22,7 +22,7 @@ interface User {
   lastName: string;
   displayName: string;
   location: string;
-  isLeader: boolean;
+  isLeader?: boolean;
 }
 
 interface TeamMembersProps {
