@@ -1,4 +1,3 @@
-import { useQuery } from "react-query";
 import { useEffect, useState } from "react";
 import { GetStaticProps } from "next";
 import { useRouter } from "next/router";
@@ -8,17 +7,14 @@ import { IoMdBackspace } from "react-icons/io";
 import { getTeam, Team } from "@/services/hooks/useTeams";
 import { api } from "@/services/apiClient";
 
+import { useSearch } from "@/hooks/useSearch";
+
 import Button from "@/components/elements/Button";
 import { Header } from "@/components/widgets/Header";
-
 import { Loading } from "@/components/widgets/LoadingState";
+import { Input } from "@/components/elements/Input";
 
-import {
-  Container,
-  ListContainer,
-  UserCard,
-  LoadingMembersFallback,
-} from "./styles";
+import { Container, ListContainer, UserCard } from "./styles";
 
 interface User {
   id: string;
@@ -26,50 +22,50 @@ interface User {
   lastName: string;
   displayName: string;
   location: string;
+  isLeader: boolean;
 }
 
 interface TeamMembersProps {
   team: Team;
-  teamLeader: User;
+  members: User[];
 }
 
-export default function TeamMembers({ team, teamLeader }: TeamMembersProps) {
+export default function TeamMembers({
+  team,
+  members: memberFromServer,
+}: TeamMembersProps) {
   const router = useRouter();
 
-  const [members, setMembers] = useState<User[]>([teamLeader]);
+  const [members, setMembers] = useState<User[]>(memberFromServer);
+
+  const filterUsers = (filterText: string) => {
+    return memberFromServer.filter((member) => {
+      return JSON.stringify(member)
+        .toLowerCase()
+        .includes(filterText.toLowerCase());
+    });
+  };
+
+  const {
+    inputSearch,
+    setInputSearch,
+    loading: loadingSearching,
+    result: resultSearching,
+  } = useSearch(filterUsers);
+
+  useEffect(() => {
+    if (resultSearching) {
+      if (inputSearch) {
+        setMembers(resultSearching);
+      } else {
+        setMembers(memberFromServer);
+      }
+    }
+  }, [resultSearching, memberFromServer]);
 
   function handleClickBack() {
     router.replace("/teams");
   }
-
-  const { data: membersFromBrowserFetch, isLoading } = useQuery(
-    ["team", team.id],
-    async () => {
-      const members: User[] = [];
-
-      for (let index = 0; index < team.teamMemberIds.length; index++) {
-        const res: User = await new Promise(async (resolve) => {
-          return api.get(`/users/${team.teamMemberIds[index]}`).then((res) => {
-            resolve(res.data);
-          });
-        });
-
-        members.push(res as any);
-      }
-
-      return members;
-    },
-    {
-      refetchOnWindowFocus: true,
-      staleTime: 1000 * 60 * 10, // 10 minutes
-    }
-  );
-
-  useEffect(() => {
-    if (membersFromBrowserFetch) {
-      setMembers([teamLeader, ...membersFromBrowserFetch]);
-    }
-  }, [teamLeader, membersFromBrowserFetch]);
 
   if (router.isFallback) {
     return <Loading />;
@@ -79,14 +75,18 @@ export default function TeamMembers({ team, teamLeader }: TeamMembersProps) {
     <Container>
       <Button onClick={handleClickBack} data-testid="button-back">
         <IoMdBackspace />
-        Voltar
+        Back
       </Button>
 
       <Header title={`Team ${team.name}`} />
 
+      <Input value={inputSearch} onChange={setInputSearch} />
+
+      {loadingSearching && <span>Loading ...</span>}
+
       <ListContainer>
-        {members.map((member, index) => (
-          <UserCard key={member.id} isLeader={index === 0}>
+        {members.map((member) => (
+          <UserCard key={member.id} isLeader={member.isLeader}>
             <h3>{member.displayName}</h3>
             <span>
               {member.firstName} {member.lastName}
@@ -94,10 +94,6 @@ export default function TeamMembers({ team, teamLeader }: TeamMembersProps) {
             <p>Location: {member.location}</p>
           </UserCard>
         ))}
-
-        {isLoading && (
-          <LoadingMembersFallback>Loading ...</LoadingMembersFallback>
-        )}
       </ListContainer>
     </Container>
   );
@@ -119,10 +115,20 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     const { teamLeadId, teamMemberIds, name } = team;
     const teamLeaderResponse = await api.get<User>(`users/${teamLeadId}`);
 
+    const members: User[] = [];
+
+    await Promise.all(
+      team.teamMemberIds.map(async (memberId) => {
+        return await api
+          .get(`/users/${memberId}`)
+          .then((res) => members.push(res.data));
+      })
+    );
+
     return {
       props: {
         team,
-        teamLeader: teamLeaderResponse.data,
+        members: [{ ...teamLeaderResponse.data, isLeader: true }, ...members],
       },
       revalidate: 60 * 30, // 30 minutes
     };

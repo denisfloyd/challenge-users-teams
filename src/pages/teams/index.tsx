@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import { Team, getTeams, useTeams } from "@/services/hooks/useTeams";
 
@@ -8,35 +8,75 @@ import { GetServerSideProps } from "next";
 import { Container, ErrorMessage, ListContainer, TeamCard } from "./styles";
 import { Header } from "@/components/widgets/Header";
 import Link from "next/link";
+import { useSearch } from "@/hooks/useSearch";
+import { Input } from "@/components/elements/Input";
 
 interface TeamListProps {
   teams: Team[];
 }
 
-export default function TeamList({ teams }: TeamListProps) {
-  const [isFetchingData, setIsFetchingData] = useState<boolean>(false);
+export default function TeamList({ teams: teamsServer }: TeamListProps) {
+  const { data, isLoading, isFetching, error } = useTeams(teamsServer);
 
-  const { data, isLoading, isFetching, error } = useTeams(teams);
+  const [teams, setTeams] = useState<Team[]>(teamsServer);
+
+  const filterTeams = (filterText: string) => {
+    return data?.filter((team) => {
+      return team.name.toLowerCase().includes(filterText.toLowerCase());
+    });
+  };
+
+  const {
+    inputSearch,
+    setInputSearch,
+    loading: loadingSearching,
+    result: resultSearching,
+  } = useSearch(filterTeams);
+
+  useEffect(() => {
+    if (resultSearching) {
+      if (inputSearch) {
+        setTeams(resultSearching);
+      } else if (data) {
+        setTeams(data);
+      }
+    }
+  }, [resultSearching, data]);
 
   return (
     <>
-      {(isLoading || isFetchingData || isFetching) && <Loading />}
+      {(isLoading || isFetching) && <Loading />}
 
       <Container>
         <Header title="Teams" />
+
+        <Input value={inputSearch} onChange={setInputSearch} />
+
+        {loadingSearching && <span>Loading ...</span>}
 
         {error || !data ? (
           <ErrorMessage>
             Get team data returned with error: {error}
           </ErrorMessage>
         ) : (
-          <ListContainer>
-            {data.map((team) => (
-              <Link key={team.id} href={`/teams/${team.id}`} prefetch>
-                <TeamCard>{team.name}</TeamCard>
-              </Link>
-            ))}
-          </ListContainer>
+          <>
+            <ListContainer>
+              {teams.map((team) => (
+                <Link
+                  key={team.id}
+                  href={`/teams/${team.id}`}
+                  prefetch
+                  passHref
+                >
+                  <TeamCard>{team.name}</TeamCard>
+                </Link>
+              ))}
+            </ListContainer>
+
+            {!!inputSearch && resultSearching?.length === 0 && (
+              <span>No Results...</span>
+            )}
+          </>
         )}
       </Container>
     </>
