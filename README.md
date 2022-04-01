@@ -43,7 +43,7 @@ This project was made using the follow technologies:
 # :rocket: Features
 
 * List of all teams (cached by react-query)
-* List of all team's members (get in server side, cached with static path, @see Nextjs getStaticPath (SSG))
+* List of all team's members (get in server side, cached with static path, @see Nextjs [SSG](https://nextjs.org/docs/basic-features/pages#static-generation-recommended))
 * Filter data (Using a custom debounce hook)
 
 # :construction_worker: How to run
