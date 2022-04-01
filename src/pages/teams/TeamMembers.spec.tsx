@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import { render, act, waitFor, screen, fireEvent } from "@/tests/test-utils";
 import { mocked } from "jest-mock";
 
-import TeamMembers, { getStaticPaths, getStaticProps } from "./[slug]";
+import TeamMembers, { getStaticProps } from "@/pages/teams/[slug]";
 
 import AxiosMock from "axios-mock-adapter";
 import { api } from "@/services/apiClient";

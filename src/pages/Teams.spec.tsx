@@ -5,8 +5,8 @@ import { render, fireEvent, waitFor, act, screen } from "@/tests/test-utils";
 import AxiosMock from "axios-mock-adapter";
 
 import { api } from "@/services/apiClient";
-import { Team } from "@/services/hooks/useTeams";
-import TeamList, { getServerSideProps } from ".";
+
+import TeamList, { getServerSideProps } from "@/pages/index";
 
 const apiMock = new AxiosMock(api);
 
