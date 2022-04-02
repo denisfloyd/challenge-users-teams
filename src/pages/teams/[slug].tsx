@@ -30,10 +30,7 @@ interface TeamMembersProps {
   members: User[];
 }
 
-export default function TeamMembers({
-  team,
-  members: memberFromServer,
-}: TeamMembersProps) {
+function TeamMembers({ team, members: memberFromServer }: TeamMembersProps) {
   const router = useRouter();
 
   const [members, setMembers] = useState<User[]>(memberFromServer);
@@ -141,3 +138,5 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     },
   };
 };
+
+export default TeamMembers;

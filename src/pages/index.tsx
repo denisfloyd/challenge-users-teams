@@ -16,7 +16,7 @@ interface TeamListProps {
   teams: Team[];
 }
 
-export default function TeamList({ teams: teamsServer }: TeamListProps) {
+function TeamList({ teams: teamsServer }: TeamListProps) {
   const { data, isLoading, isFetching, error } = useTeams(teamsServer);
 
   const [teams, setTeams] = useState<Team[]>(teamsServer);
@@ -79,9 +79,11 @@ export default function TeamList({ teams: teamsServer }: TeamListProps) {
   );
 }
 
-export const getServerSideProps: GetServerSideProps<
-  TeamListProps
-> = async () => {
+export const getServerSideProps: GetServerSideProps<TeamListProps> = async (
+  ctx
+) => {
   const teams = (await getTeams()) as Team[];
   return { props: { teams } };
 };
+
+export default TeamList;
