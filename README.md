@@ -2,17 +2,17 @@
    <a href="https://linkedin.com/in/denis-ladeira-814365115/">
       <img alt="Denis Mendonça Ladeira" src="https://img.shields.io/badge/-DenisLadeira-gray?style=flat&logo=Linkedin&logoColor=white" />
    </a>
-  <img alt="Repository size" src="https://img.shields.io/github/repo-size/denismend/ecore-users-teams?color=orange">
+  <img alt="Repository size" src="https://img.shields.io/github/repo-size/denisfloyd/challenge-users-teams?color=orange">
 
-  <a href="https://github.com/denismend/ecore-users-teams/commits/dev_v1">
-    <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/denismend/si-dragons?color=orange">
+  <a href="https://github.com/denismend/challenge-users-teams/commits/dev_v1">
+    <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/denisfloyd/challenge-users-teams?color=orange">
   </a>
 
   <img alt="License" src="https://img.shields.io/badge/license-MIT-gray">
 </p>
 
 <p align="center">
-  Challenge E-Core<br />
+  Challenge<br />
 </p>
 
 <p align="center">
@@ -52,10 +52,10 @@ This project was made using the follow technologies:
     - If you want to do it with Git, make sure you have Git installed,
       follow the link https://git-scm.com/
     - then run the command in terminal:
-        $ git clone https://github.com/denismend/ecore-users-teams.git
+        $ git clone https://github.com/denisfloyd/challenge-users-teams.git
 
 # In the terminal or prompt(cmd), access the project root;
-   $ cd ecore-users-teams
+   $ cd challenge-users-teams
 ```
 
 obs. Make sure you have [Node 17 (stable)](https://nodejs.org/en/) and [npm](https://nodejs.org/en/) 
@@ -97,11 +97,11 @@ If you want do help with the code follow the steps bellow
 ```ps
 # Fork using GitHub official command line
 # If you don't have the GitHub CLI, use the web site to do that.
-$ gh repo fork denismend/ecore-users-teams
+$ gh repo fork denisfloyd/challenge-users-teams
 
 # Clone your fork
 $ git clone {your-fork-url}
-$ cd ecore-users-teams
+$ cd challenge-users-teams
 
 # Create a branch with your feature
 $ git checkout -b {branch-name}
@@ -117,5 +117,5 @@ $ git push origin {branch-name}
 
 Released in 2022 :closed_book: License
 
-Made with love by [Denis Ladeira](https://github.com/denismend) 🚀.
+Made with love by [Denis Ladeira](https://github.com/denisfloyd) 🚀.
 This project is under the [MIT license](./LICENSE).
